@@ -1,11 +1,4 @@
-enum BoardState {
-    Open,
-    Draw,
-    Player0,
-    Player1,
-}
-
-const WINNING_COMBINATION = [
+export const WINNING_COMBINATIONS = [
     new Set([0, 1, 2]),
     new Set([3, 4, 5]),
     new Set([6, 7, 8]),
@@ -16,35 +9,39 @@ const WINNING_COMBINATION = [
     new Set([2, 4, 6]),
 ];
 
-class Board {
-    boardState = BoardState.Open;
-    player0Square = new Set<number>();
-    player1Square = new Set<number>();
+type NulPlayer = 0 | 1 | null;
 
-    updateBoard(player: 0 | 1, coordinate: number) {
-        if (coordinate < 0 || coordinate > 8)
-            throw RangeError("Coordinate out of range");
-        if (player != 0 && player != 1)
-            throw RangeError("Player value out of range");
-        if (this.boardState != BoardState.Open)
-            throw Error("Board is Completed");
-        if (
-            coordinate in this.player0Square ||
-            coordinate in this.player1Square
-        )
-            throw Error("Square already occupied");
-        const board = player == 0 ? this.player0Square : this.player1Square;
-        board.add(coordinate);
+export class Board {
+    cells: NulPlayer[] = Array(9).fill(null);
+    winner: 0 | 1 | 2 | null = null;
 
-        for (let pattern of WINNING_COMBINATION) {
-            if (pattern.isSubsetOf(board)) {
-                this.boardState =
-                    player == 0 ? BoardState.Player0 : BoardState.Player1;
-                break;
+    constructor(cells?: NulPlayer[], winner?: 0 | 1 | 2 | null) {
+        if (cells !== undefined && cells.length == 9) this.cells = cells;
+        if (winner !== undefined) this.winner = winner;
+    }
+
+    public checkState(): 0 | 1 | 2 | null {
+        // Check if board is won
+        const player0 = new Set();
+        const player1 = new Set();
+        for (const [index, squareStatus] of this.cells.entries()) {
+            if (squareStatus === 0) player0.add(index);
+            if (squareStatus === 1) player1.add(index);
+        }
+        for (const combination of WINNING_COMBINATIONS) {
+            if (combination.isSubsetOf(player0)) {
+                this.winner = 0;
+                return 0;
+            }
+            if (combination.isSubsetOf(player1)) {
+                this.winner = 1;
+                return 1;
             }
         }
-
-        if (this.player0Square.size + this.player1Square.size == 9)
-            this.boardState = BoardState.Draw;
+        if (player0.size + player1.size == 9) {
+            this.winner = 2;
+            return 2;
+        }
+        return null;
     }
 }
