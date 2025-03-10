@@ -1,9 +1,13 @@
 {
     "include": ["./src/**/*"],
     "compilerOptions": {
+        "target": "es2022",
+        "module": "node16",
         "strict": true,
+        "skipLibCheck": true,
+        "moduleResolution": "node16",
         "esModuleInterop": true,
-        "lib": ["DOM", "ESNext"],
+        "lib": ["DOM", "ESNext", "es2023"],
         "jsx": "react-jsx"
     }
 }
