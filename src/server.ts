@@ -13,7 +13,9 @@ const corsOptions = {
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: corsOptions,
+});
 
 app.use(cors(corsOptions));
 
@@ -47,8 +49,8 @@ const checkWin = (gameBoard: Board[]) => {
 io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
-    socket.on("joinGame", ({ roomId }) => {
-        const room = rooms.get(roomId);
+    socket.on("joinGame", ({ roomID }) => {
+        const room = rooms.get(roomID);
         if (!room) {
             socket.emit("error", { message: "Room does not exist" });
             return;
@@ -60,17 +62,17 @@ io.on("connection", (socket) => {
         }
 
         room.players.push(socket.id);
-        socket.join(roomId);
+        socket.join(roomID);
         if (room.players.length == 2) {
             room.turn =
                 room.turn == "" ? room.players[randomInt(2)] : room.turn;
-            io.to(roomId).emit("gameStart", {
-                roomId,
+            io.to(roomID).emit("gameStart", {
+                roomID,
                 players: room.players,
                 turn: room.turn,
             });
         }
-        console.log(`User ${socket.id} joined room ${roomId}`);
+        console.log(`User ${socket.id} joined room ${roomID}`);
     });
 
     socket.on("makeMove", ({ roomId, boardIndex, cellIndex }) => {
