@@ -101,7 +101,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
-        for (let roomId in rooms) {
+        for (let roomId of rooms.keys()) {
             let game = rooms.get(roomId);
             if (game && game.players.includes(socket.id)) {
                 io.to(roomId).emit("gameOver", { winner: "Opponent Left" });
