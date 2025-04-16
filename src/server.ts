@@ -69,6 +69,7 @@ io.on("connection", (socket) => {
             io.to(roomID).emit("gameStart", {
                 board: room.gameBoard,
                 turn: room.turn,
+                activeBoard: null,
             });
         }
         console.log(`User ${socket.id} joined room ${roomID}`);
@@ -90,6 +91,10 @@ io.on("connection", (socket) => {
                 io.to(roomId).emit("updateBoard", {
                     board: game.gameBoard,
                     turn: game.turn,
+                    activeBoard:
+                        game.gameBoard[cellIndex].winner == null
+                            ? cellIndex
+                            : null,
                 });
                 const result = checkWin(game.gameBoard);
                 if (result) {
