@@ -67,8 +67,7 @@ io.on("connection", (socket) => {
             room.turn =
                 room.turn == "" ? room.players[randomInt(2)] : room.turn;
             io.to(roomID).emit("gameStart", {
-                roomID,
-                players: room.players,
+                board: room.gameBoard,
                 turn: room.turn,
             });
         }
