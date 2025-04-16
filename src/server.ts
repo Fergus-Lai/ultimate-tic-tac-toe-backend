@@ -97,8 +97,10 @@ io.on("connection", (socket) => {
                             : null,
                 });
                 const result = checkWin(game.gameBoard);
-                if (result) {
-                    io.to(roomId).emit("gameOver", { winner: result });
+                if (result !== null) {
+                    const winning_player =
+                        result == 2 ? "draw" : game.players[result];
+                    io.to(roomId).emit("gameOver", { winner: winning_player });
                 }
             }
         }
