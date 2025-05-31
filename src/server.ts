@@ -7,7 +7,7 @@ import { randomInt } from "node:crypto";
 import cors from "cors";
 
 const corsOptions = {
-    origin: "*",
+    origin: "https://utt.fergus-lai.dev",
     methods: ["GET", "POST"],
 };
 
