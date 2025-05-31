@@ -17,6 +17,8 @@ const io = new Server(server, {
     cors: corsOptions,
 });
 
+const port = process.env.PORT || 3000;
+
 app.use(cors(corsOptions));
 
 type NulPlayer = 0 | 1 | null;
@@ -134,6 +136,6 @@ app.post("/create-room", (req, res) => {
     res.json({ roomId });
 });
 
-server.listen(3000, () => {
+server.listen(port, () => {
     console.log("server running at http://localhost:3000");
 });
