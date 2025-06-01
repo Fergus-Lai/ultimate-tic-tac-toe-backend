@@ -5,8 +5,8 @@ export const WINNING_COMBINATIONS = [
     new Set([0, 3, 6]),
     new Set([1, 4, 7]),
     new Set([2, 5, 8]),
-    new Set([0, 4, 8]),
     new Set([2, 4, 6]),
+    new Set([0, 4, 8]),
 ];
 
 type NulPlayer = 0 | 1 | null;
