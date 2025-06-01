@@ -6,9 +6,9 @@
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc",
-        "start": "node dist/server.js",
-        "dev": "nodemon --ext ts --exec tsx src/server.ts"
+        "build": "set NODE_ENV=production && tsc",
+        "start": "set NODE_ENV=production && node dist/server.js",
+        "dev": "set NODE_ENV=dev && nodemon --ext ts --exec tsx src/server.ts"
     },
     "keywords": [],
     "author": "",
