@@ -139,6 +139,10 @@ app.post("/create-room", (req, res) => {
     res.json({ roomId });
 });
 
+app.get("/status", (req, res) => {
+    res.status(200).send();
+});
+
 server.listen(port, () => {
     console.log("server running at http://localhost:3000");
 });
